@@ -49,13 +49,15 @@ Lets's consider a basic [Dockerfile](Dockerfile.demo) based on a Linux *Debian
 ```bash
 # build docker
 $ docker build -f Dockerfile.demo -t tmp/demo .
+# test docker
+$ docker run -it tmp/demo
 # make vm image
 $ sudo ./docker2vm.sh tmp/demo demo.img
 # change image owner
 $ sudo chown $USER:$USER demo.img
 # remove docker image (if needed)
 $ docker image rm --force tmp/demo
-# test vm with Qemu
+# test vm with Qemu (the root password is "root")
 $ qemu-system-x86_64 -enable-kvm -m 1G -hda demo.img -nographic
 ```
 

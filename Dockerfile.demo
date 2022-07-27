@@ -4,15 +4,18 @@
 FROM debian:11
 
 # update your system
-RUN apt update && apt upgrade -y
+RUN apt -yq update && apt -yq upgrade
 
-### install linux kernel and systemd [required]
-RUN apt install -yq linux-image-amd64 systemd-sysv
+### install essential
+RUN apt -yq install build-essential manpages apt-utils nano
+
+### install linux kernel and systemd [required for docker2vm]
+RUN apt -yq --no-install-recommends install linux-image-amd64 systemd-sysv
 
 ### set root password as "root"
 RUN echo 'root:root' | chpasswd
 
-### install what you want...
+### install a steam locomotive (/usr/game/sl) or what you want...
 RUN apt -yq install sl
 
 # EOF
