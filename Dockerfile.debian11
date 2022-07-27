@@ -16,8 +16,8 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-### install linux kernel and bootloader
-RUN apt install -yq linux-image-amd64 systemd-sysv extlinux
+### install linux kernel and systemd [required]
+RUN apt install -yq linux-image-amd64 systemd-sysv
 
 ### install what you want...
 RUN apt install -yq bash bash-completion nano sudo util-linux bc libncurses-dev ncurses-bin moreutils
