@@ -6,7 +6,16 @@ inspired by [iximiuz's
 blog](https://iximiuz.com/en/posts/from-docker-container-to-bootable-linux-disk-image/),
 also available on [GitHub](https://github.com/iximiuz/docker-to-linux).
 
-## Dependencies
+## Usage
+
+Given a docker container `<docker>`, our script `./docker2vm.sh` makes an output
+VM image `<vm.img>` (in raw format), that runs on `qemu-system-x86_64`. This
+script requires *root* privilege.
+
+```
+Usage: ./docker2vm.sh <docker> <vm.img>
+```
+## Requirements for Host
 
 First, you need to install **Docker** and **Qemu**. Then, you need to fulfill
 these additional requirements for *libguestfs* or *extlinux*.
@@ -16,25 +25,26 @@ $ sudo apt install qemu-system-x86 qemu-utils
 $ sudo apt install guestfs-tools extlinux
 ```
 
-## Usage
+## Requirements for Guest
 
-Given a docker container name `docker>`, our script (named `./docker2vm.sh`)
-makes an output VM image `<vm.img>` (in raw format), that runs on
-`qemu-system-x86_64`. It requires *root* privilege.
+You need to install in your docker container both a Linux kernel (`/vmlinuz` and
+`/initrd` files) and *systemd* (`/sbin/init`). Update your *Dockerfile* with this command:
 
+```Dockerfile
+RUN apt install -yq linux-image-amd64 systemd-sysv
 ```
-Usage: ./docker2vm.sh <docker> <vm.img>
-```
 
-**Remark**: It is required to install in your container both a linux kernel and
-systemd : `sudo apt install -yq linux-image-amd64 systemd-sysv`. While this step
-is not useful for the container itself, it will be useful to make a bootable VM
-image.
+While this step is not useful for the container itself, it will be useful to
+make a bootable VM image.
+
+Besides, we provide a simple bootloader configuration for `extlinux`, that is
+described in in [syslinux.cfg](syslinux.cfg). Here, we append the kernel option
+`console=ttyS0` to enforce the system boot in text-mode.
 
 ## Demo
 
-Lets's consider a basic build [Dockerfile](Dockerfile.demo) based on a Linux
-*Debian 11*.
+Lets's consider a basic [Dockerfile](Dockerfile.demo) based on a Linux *Debian
+11*.
 
 ```bash
 # build docker
@@ -43,9 +53,13 @@ $ docker build -f Dockerfile.demo -t tmp/demo .
 $ sudo ./docker2vm.sh tmp/demo demo.img
 # change image owner
 $ sudo chown $USER:$USER demo.img
+# remove docker image (if needed)
+$ docker image rm --force tmp/demo
 # test vm with Qemu
 $ qemu-system-x86_64 -enable-kvm -m 1G -hda demo.img -nographic
 ```
+
+![](demo.gif)
 
 Finally, you can convert this raw image in another format for Qemu (qcow2) or
 VirtualBox (vdi).
