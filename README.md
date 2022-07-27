@@ -15,6 +15,9 @@ script requires *root* privilege.
 ```
 Usage: ./docker2vm.sh <docker> <vm.img>
 ```
+
+**Disclaimer**: It works only on Linux host for Linux guest. But, it probably can be easily adapted (or not) for other systems!
+
 ## Requirements for Host
 
 First, you need to install **Docker** and **Qemu**. Then, you need to fulfill
