@@ -20,9 +20,11 @@ DOCKERCID=$(docker run -d $DOCKERIMG /bin/true)
 
 echo_blue "[Make a disk image from the tarball]"
 (set -x ; virt-make-fs --type=ext3 --partition=mbr --format=raw --size=+2G $VMIMG.tar $VMIMG)
-unlink $VMIMG.tar
 
-echo_blue "[Switch on the bootable flag]"
+echo_blue "[Remove the temporary tarball]"
+(set -x ; rm -f $VMIMG.tar)
+
+echo_blue "[Switch on the boot flag]"
 (set -x ; sfdisk --activate $VMIMG 1)
 
 echo_blue "[Write MBR]"
@@ -34,8 +36,5 @@ echo_blue "[List partitions]"
 echo_blue "[Install extlinux bootloader]"
 (set -x ; guestfish --rw -a $VMIMG -i extlinux /boot)
 (set -x ; virt-copy-in -a $VMIMG syslinux.cfg /boot/)
-
-# echo_blue "[Convert to qcow2]"
-# qemu-img convert -c $VMIMG -O qcow2 $VMIMG.qcow2
 
 echo_blue "Done!"
