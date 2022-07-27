@@ -1,0 +1,36 @@
+# Dockerfile
+
+### choose your favorite OS
+FROM debian:11
+
+LABEL maintainer="aurelien.esnard@u-bordeaux.fr"
+ARG DEBIAN_FRONTEND=noninteractive
+
+### apt tools
+RUN apt update
+RUN apt install -yq build-essential apt-utils apt-file
+
+### set locales
+RUN apt install -yq locales-all
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+### install linux kernel and bootloader
+RUN apt install -yq linux-image-amd64 systemd-sysv extlinux
+
+### install what you want...
+RUN apt install -yq bash bash-completion nano sudo util-linux bc libncurses-dev ncurses-bin moreutils
+RUN apt install -yq net-tools socat rlwrap wget curl tcpdump netcat-openbsd isc-dhcp-client
+
+### add user toto (as sudoer)
+RUN useradd -ms /bin/bash toto
+RUN echo 'toto ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+RUN gpasswd -a toto sudo
+RUN echo "toto:toto" | chpasswd
+RUN chown -R toto:toto /home/toto
+WORKDIR /home/toto
+USER toto
+ENV HOME /home/toto
+
+# EOF
