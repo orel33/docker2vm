@@ -15,7 +15,7 @@ RUN apt -yq --no-install-recommends install linux-image-amd64 systemd-sysv
 ### set root password as "root"
 RUN echo 'root:root' | chpasswd
 
-### install a steam locomotive (/usr/game/sl) or what you want...
+### install a steam locomotive (/usr/games/sl) or what you want...
 RUN apt -yq install sl
 
 # EOF
