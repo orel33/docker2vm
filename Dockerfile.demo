@@ -1,0 +1,18 @@
+# Demo for docker2vm
+
+### choose your favorite OS
+FROM debian:11
+
+# update your system
+RUN apt update && apt upgrade -y
+
+### install linux kernel and systemd [required]
+RUN apt install -yq linux-image-amd64 systemd-sysv
+
+### set root password as "root"
+RUN echo 'root:root' | chpasswd
+
+### install what you want...
+RUN apt -yq install sl
+
+# EOF

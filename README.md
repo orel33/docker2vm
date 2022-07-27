@@ -33,16 +33,18 @@ image.
 
 ## Demo
 
-Lets's build a *Debian11* VM image based on a basic dockerfile `Dockerfile.debian11`.
+Lets's consider a basic build [Dockerfile](Dockerfile.demo) based on a Linux
+*Debian 11*.
 
 ```bash
 # build docker
-$ docker build -f Dockerfile.debian11 -t tmp/debian11 .
+$ docker build -f Dockerfile.demo -t tmp/demo .
 # make vm image
-$ sudo ./docker2vm.sh tmp/debian11 debian11.img
-$ sudo chown $USER:$USER debian11.img
+$ sudo ./docker2vm.sh tmp/demo demo.img
+# change image owner
+$ sudo chown $USER:$USER demo.img
 # test vm with Qemu
-$ ./run.sh debian11.img
+$ qemu-system-x86_64 -enable-kvm -m 1G -hda demo.img -nographic
 ```
 
 Finally, you can convert this raw image in another format for Qemu (qcow2) or
@@ -50,9 +52,9 @@ VirtualBox (vdi).
 
 ```bash
 # convert in qcow2 format for Qemu
-$ qemu-img convert -c debian11.img -O qcow2 debian11.qcow2
+$ qemu-img convert -c demo.img -O qcow2 demo.qcow2
 # convert in vdi format for VirtualBox
-$ VBoxManage convertfromraw --format vdi debian11.img debian11.vdi
+$ VBoxManage convertfromraw --format vdi demo.img demo.vdi
 ```
 
 ---
