@@ -46,12 +46,12 @@ described in [syslinux.cfg](syslinux.cfg). Here, we append the kernel option
 
 ## Demo
 
-Lets's consider a basic [Dockerfile](Dockerfile.demo) based on a Linux *Debian
+Lets's consider a basic [Dockerfile](misc/Dockerfile.demo) based on a Linux *Debian
 11*.
 
 ```bash
 # build docker (without build context)
-$ docker build -t tmp/demo - < Dockerfile.demo
+$ docker build -t tmp/demo - < misc/Dockerfile.demo
 # test docker
 $ docker run -it tmp/demo
 # make vm image
