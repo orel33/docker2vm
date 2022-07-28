@@ -41,7 +41,7 @@ While this step is not useful for the container itself, it will be useful to
 make a bootable VM image.
 
 Besides, we provide a simple bootloader configuration for `extlinux`, that is
-described in in [syslinux.cfg](syslinux.cfg). Here, we append the kernel option
+described in [syslinux.cfg](syslinux.cfg). Here, we append the kernel option
 `console=ttyS0` to enforce the system boot in text-mode.
 
 ## Demo
