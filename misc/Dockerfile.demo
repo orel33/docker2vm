@@ -3,6 +3,9 @@
 ### choose your favorite OS
 FROM debian:11
 
+LABEL maintainer="aurelien.esnard@u-bordeaux.fr"
+ARG DEBIAN_FRONTEND=noninteractive
+
 # update your system
 RUN apt -yq update && apt -yq upgrade
 
