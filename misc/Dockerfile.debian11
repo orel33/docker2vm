@@ -1,0 +1,42 @@
+# My Debian 11
+
+### choose your favorite OS
+FROM debian:11
+
+LABEL maintainer="aurelien.esnard@u-bordeaux.fr"
+ARG DEBIAN_FRONTEND=noninteractive
+
+# update your system
+RUN apt -yq update && apt -yq upgrade
+
+### install essential
+RUN apt -yq install build-essential bash bash-completion manpages apt-utils nano
+
+### set locales
+RUN apt install -yq locales-all
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+### install linux kernel and systemd [required for docker2vm]
+RUN apt -yq --no-install-recommends install linux-image-amd64 systemd-sysv
+
+### set root password as "root"
+RUN echo 'root:root' | chpasswd
+
+### install what you want...
+RUN apt -yq install sudo util-linux bc moreutils unzip git
+RUN apt -yq install net-tools wget curl tcpdump netcat-openbsd isc-dhcp-client iputils-ping
+RUN apt -yq install dnsmasq apache2 openssh-server openssh-client
+
+### add user toto (as sudoer)
+RUN useradd -ms /bin/bash toto
+RUN echo 'toto ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+RUN gpasswd -a toto sudo
+RUN echo "toto:toto" | chpasswd
+RUN chown -R toto:toto /home/toto
+WORKDIR /home/toto
+USER toto
+ENV HOME /home/toto
+
+# EOF

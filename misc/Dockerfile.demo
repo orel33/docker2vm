@@ -7,7 +7,7 @@ FROM debian:11
 RUN apt -yq update && apt -yq upgrade
 
 ### install essential
-RUN apt -yq install build-essential manpages apt-utils nano
+RUN apt -yq install build-essential bash bash-completion manpages apt-utils nano
 
 ### install linux kernel and systemd [required for docker2vm]
 RUN apt -yq --no-install-recommends install linux-image-amd64 systemd-sysv
