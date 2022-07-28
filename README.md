@@ -61,7 +61,7 @@ $ sudo chown $USER:$USER demo.img
 # remove docker image (if needed)
 $ docker image rm --force tmp/demo
 # test vm with Qemu (the root password is "root")
-$ qemu-system-x86_64 -enable-kvm -m 1G -hda demo.img -nographic
+$ qemu-system-x86_64 -enable-kvm -m 200M -hda demo.img -nographic
 ```
 
 ![](demo.gif)
