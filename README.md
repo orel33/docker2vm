@@ -50,8 +50,8 @@ Lets's consider a basic [Dockerfile](Dockerfile.demo) based on a Linux *Debian
 11*.
 
 ```bash
-# build docker
-$ docker build -f Dockerfile.demo -t tmp/demo .
+# build docker (without build context)
+$ docker build -t tmp/demo - < Dockerfile.demo
 # test docker
 $ docker run -it tmp/demo
 # make vm image
